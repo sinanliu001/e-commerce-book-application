@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="BulkyBook.DataAccess/BulkyBook.DataAccess.csproj" Id="886d4134-54e6-466d-864d-4b54730bb467" />
+  <Project Path="BulkyBook.Models/BulkyBook.Models.csproj" Id="aeff3f6a-a1ad-4359-adb4-db7ff68fd621" />
+  <Project Path="BulkyBook.Utility/BulkyBook.Utility.csproj" Id="175c5871-3e94-4a73-be08-afe91220204d" />
+  <Project Path="BulkyBookWeb/BulkyBookWeb.csproj" />
+  <Project Path="DI_Service_Lifetime/DI_Service_Lifetime.csproj" Id="9dc27fdb-ed1a-43fb-a2c0-dd77c235ce85" />
+  <Project Path="RazorPagesApp/RazorPagesApp.csproj" Id="027e6d72-f544-4eab-a872-836c888a0265" />
+</Solution>

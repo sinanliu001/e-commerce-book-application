@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Category Edit Page";
+}
+@model Category
+<div class="container">
+    <form class="flex flex-col " method="post">
+        <div class="row">
+            <h2 class="text-primary">Create Category</h2>
+            <hr />
+        </div>
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="row">
+            <label asp-for="Name" class="p-0"></label>
+            <input asp-for="Name" type="text" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <label asp-for="DisplayOrder" class="p-0"></label>
+            <input asp-for="DisplayOrder" type="text" class="form-control" />
+            <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn-block btn-primary form-control">
+                    Update
+                </button>
+            </div>
+            <div class="col-6 col-md-3">
+                <a asp-controller="Category" asp-action="Index" class="btn btn-block btn-secondary">
+                    Back to List
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
