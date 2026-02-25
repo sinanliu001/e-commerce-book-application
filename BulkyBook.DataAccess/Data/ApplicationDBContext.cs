@@ -114,6 +114,28 @@ namespace BulkyBook.DataAccess.Data
                     ImageUrl = ""
                 }
                 );
+            modelBuilder.Entity<Company>().HasData(
+                new Company
+                {
+                    Id = 1,
+                    Name = "Fortune of Time",
+                    StreetAddress = "123 Main St",
+                    City = "Anytown",
+                    State = "CA",
+                    PostalCode = "12345",
+                    Phone = "555-123-4567"
+                },
+                new Company
+                {
+                    Id = 2,
+                    Name = "Rock in the Ocean",
+                    StreetAddress = "456 Elm St",
+                    City = "Othertown",
+                    State = "NY",
+                    PostalCode = "67890",
+                    Phone = "555-987-6543"
+                }
+            );
         }
     }
 }

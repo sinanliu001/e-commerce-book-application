@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Company Delete Page";
+}
+@model Company
+<div class="container">
+    <form class="flex flex-col " method="post">
+        <input asp-for="Id" hidden />
+        <div class="row">
+            <h2 class="text-primary">Delete Company</h2>
+            <hr />
+        </div>
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="form-floating py-2 col-12">
+            <input asp-for="Name" disabled class="form-control border-0 shadow" />
+            <label asp-for="Name" class="ms-2"></label>
+        </div>
+        <div class="form-floating py-2 col-12">
+            <input asp-for="StreetAddress" disabled class="form-control border-0 shadow" />
+            <label asp-for="StreetAddress" class="ms-2"></label>
+        </div>
+        <div class="form-floating py-2 col-12">
+            <input asp-for="City" disabled class="form-control border-0 shadow" />
+            <label asp-for="City" class="ms-2"></label>
+        </div>
+        <div class="form-floating py-2 col-12">
+            <input asp-for="State" disabled class="form-control border-0 shadow" />
+            <label asp-for="State" class="ms-2"></label>
+        </div>
+        <div class="form-floating py-2 col-12">
+            <input asp-for="PostalCode" disabled class="form-control border-0 shadow" />
+            <label asp-for="PostalCode" class="ms-2"></label>
+        </div>
+        <div class="form-floating py-2 col-12">
+            <input asp-for="Phone" disabled class="form-control border-0 shadow" />
+            <label asp-for="Phone" class="ms-2"></label>
+        </div>
+        <div class="row">
+            <div class="col-6 col-md-3">
+                <button type="submit" class="btn-block btn-danger form-control">
+                    Delete
+                </button>
+            </div>
+            <div class="col-6 col-md-3">
+                <a asp-controller="Company" asp-action="Index" class="btn btn-block btn-secondary">
+                    Back to List
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
