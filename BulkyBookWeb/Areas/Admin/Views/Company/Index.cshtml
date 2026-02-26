@@ -19,6 +19,10 @@
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Phone</th>
                 <th></th>
             </tr>
         </thead>
@@ -26,6 +30,10 @@
         {
             <tr>
                 <td>@obj.Name</td>
+                <td>@obj.StreetAddress</td>
+                <td>@obj.City</td>
+                <td>@obj.State</td>
+                <td>@obj.Phone</td>
                 <td>
                     <div class="w-75 btn-group" role="group">
                         <a asp-asp-controller="Company" asp-action="Edit" asp-route-Id="@obj.Id" class="btn btn-primary mx-2">
