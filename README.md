@@ -2,16 +2,20 @@
 
 ASP.NET Core MVC bookstore built on the [BulkyBook](https://www.udemy.com/course/complete-aspnet-core-21-course) tutorial pattern: layered architecture, Entity Framework Core, ASP.NET Core Identity, and an admin area for catalog management.
 
-## Features
+## Current status
 
-| Area | Status |
-|------|--------|
+| Feature | Status |
+|---------|--------|
 | Product catalog (browse, details) | Done |
 | Admin CRUD — categories, products, companies | Done |
 | Product images (upload to `wwwroot/images/product/`) | Done |
 | ASP.NET Core Identity (register, login, roles) | Done |
 | Company accounts (B2B registration) | Done |
-| Shopping cart, checkout, orders | Planned |
+| Shopping cart (add, view, update quantity, remove) | Done |
+| Tiered pricing (1–50 / 50+ / 100+ units) | Done |
+| Order models & database tables (`OrderHeader`, `OrderDetail`) | Done |
+| Checkout summary UI | In progress |
+| Order placement, payment (Stripe), order management | Planned |
 
 ### Roles
 
@@ -49,6 +53,20 @@ Open the solution:
 dotnet restore BulkyBookWeb.slnx
 ```
 
+## Data model
+
+| Entity | Purpose |
+|--------|---------|
+| `Category` | Book categories (Action, SciFi, History — seeded) |
+| `Product` | Books with tiered pricing and optional image |
+| `Company` | B2B company profile for `Company` role users |
+| `ShoppingCart` | Per-user line items (product + quantity) |
+| `OrderHeader` | Order metadata, shipping address, payment fields |
+| `OrderDetail` | Line items on a placed order |
+| `ApplicationUser` | Extended Identity user (name, address, optional `CompanyId`) |
+
+Seed data for categories, products, and companies is configured in `BulkyBook.DataAccess/Data/ApplicationDBContext.cs`.
+
 ## Prerequisites
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
@@ -76,7 +94,13 @@ dotnet ef database update \
   --startup-project BulkyBookWeb/BulkyBookWeb.csproj
 ```
 
-Seed data (categories, sample books, companies) is applied via `ApplicationDBContext` in `BulkyBook.DataAccess/Data/ApplicationDBContext.cs`.
+### Migrations
+
+| Migration | Adds |
+|-----------|------|
+| `InitialCreate` | Categories, products, companies, Identity tables |
+| `Addshoppingcart` | `ShoppingCarts` table |
+| `AddOrderHeader` | `OrderHeaders` and `OrderDetails` tables |
 
 ### Add a new migration
 
@@ -110,17 +134,29 @@ The default route lands on the **Customer** area product list: `{area=Customer}/
 
 | Area | Purpose |
 |------|---------|
-| **Customer** | Public catalog — product list and details |
+| **Customer** | Product catalog, product details, shopping cart |
 | **Admin** | Manage categories, products (`Upsert` + images), and companies |
 | **Identity** | Account registration, login, password reset, 2FA |
 
-Admin endpoints are not restricted with `[Authorize]` yet; add role-based authorization before production use.
+### Customer flow
+
+1. Browse products on the home page.
+2. Open a product’s details page and choose a quantity.
+3. **Add to Cart** — requires a signed-in user (`[Authorize]` on the POST action).
+4. Open **Cart** from the navbar to adjust quantities, remove items, or proceed to **Summary**.
+5. Cart totals use tiered pricing: `Price` (1–50), `Price50` (51–100), `Price100` (100+).
+
+### Authorization
+
+- **Cart** and **Add to Cart** require authentication.
+- **Admin** endpoints are not restricted with `[Authorize]` yet — add role-based authorization before production use.
 
 ## Architecture notes
 
 - Controllers use `IUnitOfWork` instead of injecting `ApplicationDBContext` directly.
-- Generic `Repository<T>` supports optional EF `Include` via the `includeProperties` argument (comma-separated navigation paths).
-- Identity is registered with `IdentityUser` in `Program.cs`; `ApplicationUser` exists in the models layer for extended profile/company fields and may be wired in later.
+- `UnitOfWork` exposes repositories for `Category`, `Product`, `Company`, `ShoppingCart`, `OrderHeader`, and `OrderDetail`.
+- Generic `Repository<T>` supports optional filtering and EF `Include` via `includeProperties` (comma-separated navigation paths).
+- Identity is registered with `IdentityUser` in `Program.cs`; `ApplicationUser` exists in the models layer for extended profile/company fields and is referenced by cart/order entities.
 
 ## Configuration
 
